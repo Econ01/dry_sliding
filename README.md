@@ -12,4 +12,4 @@ Output is .xyz file which contains the whole motion.
 
 ### References
 
--Buldum & Ciraci (1996). Atomic-scale study of dry sliding friction. *PHYSICAL REVIEW B , 55, 4*
+Buldum & Ciraci (1996). Atomic-scale study of dry sliding friction. *PHYSICAL REVIEW B , 55, 4*
