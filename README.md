@@ -9,3 +9,7 @@ This simulation analyzes nickel atoms which consists of 1001 1D layer of connect
 ## Output
 
 Output is .xyz file which contains the whole motion.
+
+### References
+
+-Buldum & Ciraci (1996). Atomic-scale study of dry sliding friction. *PHYSICAL REVIEW B , 55, 4*
