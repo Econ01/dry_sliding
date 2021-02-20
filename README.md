@@ -1,5 +1,5 @@
 ```html
-   <h1 style:"color:red">Work In Progress</h1>
+   <h1 style:"color:#ff0000">Work In Progress</h1>
 ```
 
 # Atomic Level Interactions, Friction and Skip-Slide Motion Simulation
