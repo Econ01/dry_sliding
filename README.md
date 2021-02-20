@@ -1,7 +1,4 @@
-
-```html
-   Work In Progress
-```
+#Work In Progress
 
 # Atomic Level Interactions, Friction and Skip-Slide Motion Simulation
 
@@ -18,16 +15,3 @@ Output is .xyz file which contains the whole motion.
 ### References
 
 Buldum & Ciraci (1996). Atomic-scale study of dry sliding friction. *PHYSICAL REVIEW B , 55, 4*
-
-import { Component } from '@angular/core';
-import { MovieService } from './services/movie.service';
-
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [ MovieService ]
-})
-export class AppComponent {
-  title = 'app works!';
-}
