@@ -1,5 +1,3 @@
-<h1 style="color:#ff0000">Work In Progress</h1>
-
 # Atomic Level Interactions, Friction and Skip-Slide Motion Simulation
 
 This code aims to study skip-slide motion for atoms dor specific conditions and also aims to understand energy loss caused by friction and other effects.
