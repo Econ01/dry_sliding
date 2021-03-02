@@ -1,6 +1,6 @@
 # Work In Progress
 
-# Atomic Level Interactions, Friction and Skip-Slide Motion Simulation
+# Atomic Level Interactions, Friction and Stick-Slip Motion Simulation
 
 This code aims to study skip-slide motion for atoms dor specific conditions and also aims to understand energy loss caused by friction and other effects.
 
