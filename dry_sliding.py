@@ -164,8 +164,10 @@ for l in range(Steps):
     #--------------------------------------------------------------------------
 
     #Nomalization of the velocity values for substrades
-    Remainder = l%(Normalization_Steps)
-    Step_Counter = (Remainder == 0)
+    Step_Counter=False
+    if(Normalization_Answer==True):
+        Remainder = l%(Normalization_Steps)
+        Step_Counter = (Remainder == 0)
     if(Step_Counter==True and Normalization_Answer==True and l!=0):
         for n in range(range_min,range_max):
             vi_rescale,vi_z_rescale = Rescale(vi[n],vi_z[n],heat_total[-1])
