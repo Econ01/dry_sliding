@@ -11,6 +11,8 @@ start_time = time.time()
 
 #Initial conditions
 m = 58.6934 #mass of one Ni atom in amu
+m_kg = 9.7462675*math.pow(10,-26)
+N = 6.0221409*math.pow(10,23)
 converter = 9648.53329 #unit converter
 e = 0.84 #(eV) for Lennard-Jones
 r0 = 2.56 #(Angstrom) for Lennard-Jones
@@ -20,7 +22,7 @@ dt = 0.01 #Time interval
 Steps = 5000 #Step Count
 t = [0] #Time
 heat_total = [] #To store lost energy
-target_heat = 24 #Environment temperature in celsius
+target_heat = 297.15 #Environment temperature in Kelvin
 distance_substrate = 3 #Distance between each substrate atom (In Angstrom)
 coordinates = int((subsc-1)*distance_substrate/2) #to calculate starting coordinates of the substrates
 
@@ -50,6 +52,25 @@ kz=10
 
 Fid1 = open("i_coordinates.xyz","a")
 Fid1.truncate(0)
+
+#Checks whether the user wants to use normalized heat function or not.
+def NormalizationPrompt(prompt_want):
+    while True:
+        try:
+            return {"y":True,"n":False}[input(prompt_want).lower()]
+        except KeyError:
+            print("Invalid input please enter y or n (Default is n)!")
+Normalization_Answer=bool(NormalizationPrompt("Do you want to normalize system heat? (y/n) \n"))
+
+#Asking user to input a step interval for determining normalization period.
+def NormalizationPrompt(prompt_steps):
+    while True:
+        try:
+            return int(input(prompt_steps))
+        except ValueError:
+            print("Invalid input please enter an integer!")
+if(Normalization_Answer==True):
+    Normalization_Steps=int(NormalizationPrompt("Normalization period (Every nth step) \n"))
 
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
@@ -106,11 +127,12 @@ def Object_Z_Calculator(xi,zi,xtf,ztf):
             elif(TempForce_Z>0):
                 ztf-=0.001
 
-def Heat(range_min,range_max,vi):
+def Heat(range_min,range_max,vi,vi_z):
     total_energy = 0
     for n in range(range_min,range_max):
-        total_energy = total_energy + (0.5)*m*(vi[n]**2)
-    heat = (total_energy / (1.5*kB*(range_max-range_min))) * ((math.pow(10,-24))/(6.022))
+        total_energy = total_energy + (0.5)*m_kg*((vi[n]*100)**2) + (0.5)*m_kg*((vi_z[n]*100)**2)
+    heat = (2*(total_energy/(range_max-range_min)))/(3*kB)
+    #heat = (total_energy / (1.5*kB*(range_max-range_min))) * ((math.pow(10,-24))/(6.022))
     return heat
 
 #Rescaling the velocities according to the normalized heat
@@ -141,7 +163,17 @@ for l in range(Steps):
         xi[n] = vi[n]*dt + xi[n]
     #--------------------------------------------------------------------------
 
-    heat_total.append(Heat(range_min,range_max,vi))
+    #Nomalization of the velocity values for substrades
+    Remainder = l%(Normalization_Steps)
+    Step_Counter = (Remainder == 0)
+    if(Step_Counter==True and Normalization_Answer==True and l!=0):
+        for n in range(range_min,range_max):
+            vi_rescale,vi_z_rescale = Rescale(vi[n],vi_z[n],heat_total[-1])
+            vi[n]=vi_rescale
+            vi_z[n]=vi_z_rescale
+
+    #Indexing the total heat output of the system step by step
+    heat_total.append(Heat(range_min,range_max,vi,vi_z))
 
     Ff.append(kt*(xd[0]-xd[-1]+xt[-1])) #calculation of friction force
 
